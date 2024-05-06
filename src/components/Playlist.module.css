@@ -1,0 +1,54 @@
+.playlist {
+  background-color: #121212;
+  padding: 20px;
+  margin: 20px;
+  border-radius: 10px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 45%;  
+  box-sizing: border-box;
+}
+
+.playlistHeader .playlistNameInput, .trackList, .saveButton, .addTrackButton {
+  font-size: 24px;
+  margin-bottom: 20px;
+  width: 100%;  /* Full width of the playlist container */
+}
+
+.playlistNameInput {
+  font-size: 20px;
+  padding: 10px;
+  margin-bottom: 20px;
+  width: 100%; 
+  border: none;
+  border-radius: 5px;
+  background-color: #535353; 
+  color: white; 
+  text-align: center;
+}
+
+.trackList {
+  width: 100%;
+}
+
+.saveButton {
+  background-color: #1db954;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+.addTrackButton {
+  background-color: #1db954;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  margin-top: 10px;
+}

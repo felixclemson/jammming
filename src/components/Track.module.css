@@ -1,0 +1,32 @@
+.trackItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #282c34;
+    color: white;
+    border-radius: 5px;
+    margin: 5px 0;
+}
+
+.trackInfo {
+    flex-grow: 1;
+    margin-right: 20px;
+    overflow: hidden;  
+  text-overflow: ellipsis;  
+  white-space: nowrap;  
+}
+
+.trackInfo h3, .trackInfo p {
+    white-space: normal;  /* Allows text to wrap to a new line */
+  }
+
+.trackAction {
+    padding: 5px 15px;
+    background-color: #1db954;
+    /* Spotify green */
+    border: none;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+}
