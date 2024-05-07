@@ -153,7 +153,8 @@ function App() {
   const handleDisconnectFromSpotify = useCallback(() => {
     removeAccessToken()
     window.location.href = 'http://localhost:3000/';
-  })
+  }, []
+  )
 
   const handleAddTrackToPlaylist = useCallback((trackToAdd) => {
     if (!playlistTracks.some(track => track.id === trackToAdd.id)) {
