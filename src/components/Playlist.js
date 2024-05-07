@@ -46,7 +46,6 @@ const addTracksToPlaylist = async (playlistId, tracks) => {
   try {
     const accessToken = getAccessToken()
     const uris = tracks.map((track) => { return track.uri })
-
     const response = await fetch(`https://api.spotify.com/v1/playlists/${playlistId}/tracks`, {
       method: 'POST',
       headers: {
@@ -57,32 +56,17 @@ const addTracksToPlaylist = async (playlistId, tracks) => {
         uris: uris,
       })
     })
+    return response.ok;
   } catch (error) {
     console.error('Error adding tracks to playlist', error);
-    return null;
+    return false;
   }
 }
-
-const saveToSpotify = async (playlistName, tracks) => {
-  if (!playlistName) {
-    alert('Please enter a playlist name.');
-    return;
-  }
-  const userId = await getUserProfile();
-  if (userId) {
-    const playlistId = await createPlaylist(userId, playlistName);
-    if (playlistId) {
-      console.log(`Playlist created with ID: ${playlistId}`);
-      await addTracksToPlaylist(playlistId, tracks);
-    }
-  }
-};
 
 function Playlist({ tracks, onRemove, onClearSearchResults, onReset }) {
   const [playlistName, setPlaylistName] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
-  const [error, setError] = useState(null)
 
   const handleSaveToSpotify = async () => {
     if (!playlistName) {
@@ -109,24 +93,12 @@ function Playlist({ tracks, onRemove, onClearSearchResults, onReset }) {
     setLoading(false);
     if (success) {
       setMessage(`Playlist "${playlistName}" created successfully.`);
-      onRemove();
       setPlaylistName('');
       onClearSearchResults();
       onReset();
     } else {
       setMessage('Failed to add tracks to playlist.');
     }
-    // try to save
-    // if successful:
-    //    - store message in state
-    //    - display message to user
-    //    - clear selected tracks?
-    //    - clear playlist name?
-    // if error:
-    //    - store error in state
-    //    - display error to user
-    // 
-    return saveToSpotify(playlistName, tracks);
   };
 
   if (loading) {

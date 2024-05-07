@@ -75,6 +75,11 @@ const searchTracks = async (term) => {
 
 const getMyTopTracks = async () => {
   const accessToken = getAccessToken()
+  if (accessToken === null) {
+    return {
+      items: []
+    };
+  }
   const url = `https://api.spotify.com/v1/me/top/tracks/?limit=3`;
   const payload = {
     method: "GET",
@@ -100,30 +105,34 @@ const handleRequestSpotifyAuthentication = async () => {
   window.location.href = spotifyUrl;
 };
 
+const getInitialSearchResults = async () => {
+  const tracks = await getMyTopTracks()
+  console.log(tracks)
+  const transformed = tracks.items.map((track) => {
+    return {
+      id: track.id,
+      name: track.name,
+      album: track.album.name,
+      artist: track.artists[0].name,
+      uri: track.uri
+    }
+  })
+  return transformed;
+}
+
 function App() {
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const [searchResults, setSearchResults] = useState();
   const handledCode = useRef(false)
 
-  useEffect(() => {
-    const initialiseSearchResults = async () => {
-      const tracks = await getMyTopTracks()
-      console.log(tracks)
-      const transformed = tracks.items.map((track) => {
-        return {
-          id: track.id,
-          name: track.name,
-          album: track.album.name,
-          artist: track.artists[0].name,
-          uri: track.uri
-        }
-      })
-      setSearchResults(transformed)
-    }
+  const initialiseSearchResults = async () => {
+    const initialSearchResults = await getInitialSearchResults()
+    setSearchResults(initialSearchResults)
+  }
 
+  useEffect(() => {
     initialiseSearchResults()
-  }, []
-  )
+  }, [])
 
   useEffect(() => {
     const handleAuthorizationCode = async () => {
@@ -143,6 +152,7 @@ function App() {
 
   const handleDisconnectFromSpotify = useCallback(() => {
     removeAccessToken()
+    window.location.href = 'http://localhost:3000/';
   })
 
   const handleAddTrackToPlaylist = useCallback((trackToAdd) => {
@@ -189,8 +199,8 @@ function App() {
           <Playlist
             tracks={playlistTracks}
             onRemove={handleRemoveTrackFromPlaylist}
-            onClearSearchResults={() => setSearchResults([])}
-            onReset={() => { /* any additional reset actions */ }}
+            onClearSearchResults={() => initialiseSearchResults()}
+            onReset={() => { setPlaylistTracks([]) }}
           />
         </div>
         <footer className={styles.footer}>
@@ -206,6 +216,5 @@ function App() {
     );
   }
 }
-
 
 export default App;

@@ -25,9 +25,7 @@
   display: flex;
   justify-content: space-between;
   width: 90%;
-  /* Adjust based on your design preference */
   max-width: 1200px;
-  /* Ensuring it doesn't get too wide on larger screens */
   padding: 10px 10px;
   box-sizing: border-box;
 }

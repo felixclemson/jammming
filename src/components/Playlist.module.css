@@ -14,7 +14,7 @@
 .playlistHeader .playlistNameInput, .trackList, .saveButton, .addTrackButton {
   font-size: 24px;
   margin-bottom: 20px;
-  width: 100%;  /* Full width of the playlist container */
+  width: 100%; 
 }
 
 .playlistNameInput {
