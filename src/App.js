@@ -12,6 +12,8 @@ const generateRandomString = (length) => {
   return values.reduce((acc, x) => acc + possible[x % possible.length], "");
 };
 
+const appUri = process.env.APP_URI || 'http://locahost:3000/';
+
 const sha256 = async (plain) => {
   const encoder = new TextEncoder();
   const data = encoder.encode(plain);
@@ -32,7 +34,7 @@ const getChallenge = async (verifier) => {
 
 const exchangeCodeForToken = async (code) => {
   const codeVerifier = getCodeVerifier();
-  const redirectUri = 'http://localhost:3000/';
+  const redirectUri = appUri;
   const clientId = 'e5093d568e96427cb30a04d517ece293';
 
   const payload = {
@@ -96,7 +98,7 @@ const getMyTopTracks = async () => {
 
 const handleRequestSpotifyAuthentication = async () => {
   const clientId = 'e5093d568e96427cb30a04d517ece293';
-  const redirectUri = 'http://localhost:3000/';
+  const redirectUri = appUri;
   const scopes = 'playlist-modify-public playlist-modify-private user-top-read';
   const codeVerifier = generateRandomString(64);
   const codeChallenge = await getChallenge(codeVerifier);
@@ -139,7 +141,7 @@ function App() {
       const code = new URLSearchParams(window.location.search).get('code');
       if (code && handledCode.current === false) {
         storeAccessToken(await exchangeCodeForToken(code))
-        window.location.href = "http://localhost:3000/";
+        window.location.href = appUri;
       }
     }
 
@@ -152,7 +154,7 @@ function App() {
 
   const handleDisconnectFromSpotify = useCallback(() => {
     removeAccessToken()
-    window.location.href = 'http://localhost:3000/';
+    window.location.href = appUri;
   }, []
   )
 
