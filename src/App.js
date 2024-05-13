@@ -12,7 +12,7 @@ const generateRandomString = (length) => {
   return values.reduce((acc, x) => acc + possible[x % possible.length], "");
 };
 
-const appUri = 'https://felixclemson-jamming.netlify.app/' || 'http://localhost:3000/';
+const appUri = process.env.REACT_APP_URL || 'http://localhost:3000/';
 
 const sha256 = async (plain) => {
   const encoder = new TextEncoder();
